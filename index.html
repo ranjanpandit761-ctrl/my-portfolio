@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ranjan Pandit | Front-End Developer & Future Software Engineer</title>
+  <meta name="description" content="Portfolio of Ranjan Pandit - BCA Student, Front-End Web Developer, and Aspiring Software Engineer.">
+  
+  <!-- Google Fonts: Sora & Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* ==========================================
+       1. VARIABLES & BASE STYLES
+       ========================================== */
+    :root {
+      --bg-dark: #030b1e;
+      --bg-deep-ocean: #06152e;
+      --primary-cyan: #00f2fe;
+      --primary-blue: #4facfe;
+      --accent-purple: #7f00ff;
+      --accent-turquoise: #00e5ff;
+      --text-main: #e2f1ff;
+      --text-muted: #8ab4f8;
+      --glass-bg: rgba(6, 21, 46, 0.55);
+      --glass-border: rgba(0, 242, 254, 0.2);
+      --glass-hover-border: rgba(0, 242, 254, 0.6);
+      --glow-shadow: 0 0 25px rgba(0, 242, 254, 0.35);
+      --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      overflow-x: hidden;
+      cursor: none; /* Custom cursor used */
+    }
+
+    h1, h2, h3, h4, .logo {
+      font-family: 'Sora', sans-serif;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-dark);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, var(--primary-cyan), var(--accent-purple));
+      border-radius: 5px;
+    }
+
+    /* ==========================================
+       2. CUSTOM CURSOR & LOADER
+       ========================================== */
+    .cursor-dot, .cursor-outline {
+      pointer-events: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      z-index: 9999;
+      transition: transform 0.15s ease-out, opacity 0.15s ease-out;
+    }
+    .cursor-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--primary-cyan);
+      box-shadow: 0 0 10px var(--primary-cyan);
+    }
+    .cursor-outline {
+      width: 36px;
+      height: 36px;
+      border: 2px solid var(--accent-turquoise);
+      transition: transform 0.25s ease-out;
+    }
+
+    /* Preloader Water Ripple */
+    #preloader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: var(--bg-dark);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      z-index: 10000;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+    .ripple-loader {
+      position: relative;
+      width: 100px;
+      height: 100px;
+    }
+    .ripple-loader div {
+      position: absolute;
+      border: 4px solid var(--primary-cyan);
+      opacity: 1;
+      border-radius: 50%;
+      animation: ripple 1.8s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+    }
+    .ripple-loader div:nth-child(2) {
+      animation-delay: -0.9s;
+    }
+    @keyframes ripple {
+      0% { top: 50px; left: 50px; width: 0; height: 0; opacity: 1; }
+      100% { top: 0px; left: 0px; width: 100px; height: 100px; opacity: 0; }
+    }
+    .preloader-text {
+      margin-top: 20px;
+      letter-spacing: 3px;
+      font-size: 0.9rem;
+      color: var(--primary-cyan);
+      text-transform: uppercase;
+    }
+
+    /* ==========================================
+       3. BACKGROUND ANIMATIONS (WAVES & BUBBLES)
+       ========================================== */
+    .bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      pointer-events: none;
+    }
+    .ocean-waves {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 180px;
+      z-index: -1;
+      pointer-events: none;
+      opacity: 0.4;
+    }
+    .wave {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 200%;
+      height: 100%;
+      background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C59.71,118.37,130.83,121.31,200,110Z' fill='%200f2fe' opacity='0.3'%3E%3C/path%3E%3C/svg%3E") repeat-x;
+      animation: waveMove 15s linear infinite;
+    }
+    .wave:nth-child(2) {
+      bottom: 10px;
+      opacity: 0.5;
+      animation: waveMove 10s linear infinite reverse;
+    }
+    @keyframes waveMove {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* Floating Particles/Bubbles Container */
+    #particles-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .bubble {
+      position: absolute;
+      bottom: -50px;
+      background: radial-gradient(circle at 30% 30%, rgba(0, 242, 254, 0.8), rgba(127, 0, 255, 0.2));
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+      animation: floatUp 12s infinite linear;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(0.8); opacity: 0; }
+      20% { opacity: 0.7; }
+      100% { transform: translateY(-110vh) scale(1.2); opacity: 0; }
+    }
+
+    /* ==========================================
+       4. NAVBAR & NAVIGATION
+       ========================================== */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 20px 8%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      transition: var(--transition);
+    }
+    header.scrolled {
+      padding: 12px 8%;
+      background: rgba(3, 11, 30, 0.85);
+      backdrop-filter: blur(15px);
+      border-bottom: 1px solid var(--glass-border);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    .logo {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #fff;
+      text-decoration: none;
+      letter-spacing: 1px;
+    }
+    .logo span {
+      background: linear-gradient(135deg, var(--primary-cyan), var(--accent-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+    }
+    .nav-links a {
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      transition: var(--transition);
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary-cyan), var(--accent-purple));
+      transition: var(--transition);
+      border-radius: 2px;
+    }
+    .nav-links a:hover {
+      color: var(--primary-cyan);
+    }
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+    .hamburger {
+      display: none;
+      font-size: 1.5rem;
+      color: var(--text-main);
+      cursor: pointer;
+    }
+
+    /* ==========================================
+       5. REUSABLE COMPONENTS
+       ========================================== */
+    section {
+      padding: 100px 8% 60px 8%;
+      position: relative;
+    }
+    .section-title {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .section-title h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      display: inline-block;
+      background: linear-gradient(135deg, #fff, var(--primary-cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+    }
+    .section-title h2::after {
+      content: '';
+      display: block;
+      width: 60px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-cyan), var(--accent-purple));
+      margin: 10px auto 0 auto;
+      border-radius: 2px;
+    }
+    .glass-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+      transition: var(--transition);
+    }
+    .glass-card:hover {
+      border-color: var(--glass-hover-border);
+      box-shadow: var(--glow-shadow);
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 32px;
+      border-radius: 30px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary-cyan), var(--primary-blue));
+      color: #030b1e;
+      box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
+      border: none;
+    }
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 30px rgba(0, 242, 254, 0.7);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--text-main);
+      border: 2px solid var(--primary-cyan);
+    }
+    .btn-outline:hover {
+      background: rgba(0, 242, 254, 0.1);
+      box-shadow: 0 0 20px rgba(0, 242, 254, 0.3);
+      transform: translateY(-3px);
+    }
+
+    /* ==========================================
+       6. HERO SECTION
+       ========================================== */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 130px;
+      gap: 40px;
+    }
+    .hero-content {
+      flex: 1;
+      max-width: 600px;
+    }
+    .hero-subtitle {
+      color: var(--accent-turquoise);
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 15px;
+    }
+    .hero-title span {
+      background: linear-gradient(135deg, var(--primary-cyan), var(--accent-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .typing-container {
+      font-size: 1.25rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      margin-bottom: 25px;
+      min-height: 35px;
+    }
+    .typing-text {
+      color: var(--primary-cyan);
+      border-right: 2px solid var(--primary-cyan);
+      padding-right: 5px;
+      animation: blink 0.75s step-end infinite;
+    }
+    @keyframes blink {
+      from, to { border-color: transparent }
+      50% { border-color: var(--primary-cyan); }
+    }
+    .hero-btns {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 35px;
+    }
+    .social-links {
+      display: flex;
+      gap: 15px;
+    }
+    .social-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-main);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    .social-icon:hover {
+      background: var(--primary-cyan);
+      color: #030b1e;
+      transform: translateY(-5px) rotate(360deg);
+      box-shadow: 0 0 20px var(--primary-cyan);
+    }
+
+    /* Hero Image Frame with 3D Ocean Effect */
+    .hero-image-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    .image-wrapper {
+      position: relative;
+      width: 320px;
+      height: 420px;
+      border-radius: 30px;
+      padding: 10px;
+      background: linear-gradient(135deg, rgba(0, 242, 254, 0.4), rgba(127, 0, 255, 0.4));
+      backdrop-filter: blur(10px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+      animation: floatFrame 6s ease-in-out infinite;
+      transform-style: preserve-3d;
+    }
+    @keyframes floatFrame {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-15px) rotate(1deg); }
+    }
+    .image-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      border-radius: 20px;
+      filter: contrast(1.05) brightness(1.02);
+    }
+    .glow-ring {
+      position: absolute;
+      top: -20px;
+      left: -20px;
+      right: -20px;
+      bottom: -20px;
+      border-radius: 40px;
+      border: 2px solid var(--primary-cyan);
+      opacity: 0.3;
+      z-index: -1;
+      animation: pulseGlow 4s ease-in-out infinite alternate;
+    }
+    @keyframes pulseGlow {
+      0% { transform: scale(0.98); opacity: 0.2; }
+      100% { transform: scale(1.03); opacity: 0.6; box-shadow: 0 0 30px var(--primary-cyan); }
+    }
+
+    /* ==========================================
+       7. ABOUT & EDUCATION SECTION
+       ========================================== */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+    .about-card {
+      padding: 40px;
+    }
+    .about-card p {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--text-main);
+      margin-bottom: 25px;
+    }
+    .education-box {
+      margin-top: 25px;
+      padding-top: 25px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+    }
+    .edu-icon {
+      font-size: 2rem;
+      color: var(--primary-cyan);
+      background: rgba(0, 242, 254, 0.1);
+      width: 60px;
+      height: 60px;
+      border-radius: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .edu-details h4 {
+      font-size: 1.2rem;
+      color: #fff;
+    }
+    .edu-details p {
+      margin-bottom: 0;
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* ==========================================
+       8. SKILLS SECTION
+       ========================================== */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 25px;
+    }
+    .skill-card {
+      padding: 25px;
+      transform-style: preserve-3d;
+      perspective: 1000px;
+    }
+    .skill-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    .skill-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .skill-info i {
+      font-size: 1.5rem;
+      color: var(--primary-cyan);
+    }
+    .skill-name {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+    .progress-bar-bg {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary-cyan), var(--accent-purple));
+      border-radius: 10px;
+      width: 0%;
+      transition: width 1.5s cubic-bezier(0.1, 0.42, 0.41, 1);
+    }
+
+    /* ==========================================
+       9. SERVICES SECTION
+       ========================================== */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+    .service-card {
+      padding: 35px 25px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .service-icon {
+      width: 70px;
+      height: 70px;
+      margin: 0 auto 20px auto;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(0, 242, 254, 0.2), rgba(127, 0, 255, 0.2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      color: var(--primary-cyan);
+      border: 1px solid var(--glass-border);
+      transition: var(--transition);
+    }
+    .service-card:hover .service-icon {
+      transform: scale(1.1) rotate(10deg);
+      background: linear-gradient(135deg, var(--primary-cyan), var(--accent-purple));
+      color: #030b1e;
+    }
+    .service-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    /* ==========================================
+       10. PROJECTS SECTION
+       ========================================== */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+    .project-card {
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+    }
+    .project-img-placeholder {
+      width: 100%;
+      height: 180px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(0, 242, 254, 0.15), rgba(127, 0, 255, 0.15));
+      border: 1px dashed var(--glass-border);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      gap: 10px;
+      color: var(--text-muted);
+      transition: var(--transition);
+    }
+    .project-card:hover .project-img-placeholder {
+      border-color: var(--primary-cyan);
+      color: var(--primary-cyan);
+    }
+    .project-img-placeholder i {
+      font-size: 2.5rem;
+    }
+    .project-title {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+    }
+    .project-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    .project-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .tag {
+      font-size: 0.75rem;
+      padding: 4px 12px;
+      border-radius: 20px;
+      background: rgba(0, 242, 254, 0.1);
+      color: var(--primary-cyan);
+      border: 1px solid rgba(0, 242, 254, 0.2);
+    }
+
+    /* ==========================================
+       11. ACHIEVEMENTS & COUNTERS
+       ========================================== */
+    .achievements-section {
+      background: linear-gradient(180deg, transparent, rgba(6, 21, 46, 0.8), transparent);
+    }
+    .counters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+      text-align: center;
+    }
+    .counter-card {
+      padding: 30px;
+    }
+    .counter-number {
+      font-size: 3rem;
+      font-weight: 800;
+      font-family: 'Sora', sans-serif;
+      background: linear-gradient(135deg, var(--primary-cyan), var(--accent-turquoise));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 5px;
+    }
+    .counter-label {
+      font-size: 1rem;
+      color: var(--text-muted);
+    }
+
+    /* ==========================================
+       12. CONTACT SECTION & FOOTER
+       ========================================== */
+    .contact-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+    .contact-info-card {
+      padding: 30px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    .contact-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 15px;
+      background: rgba(0, 242, 254, 0.1);
+      border: 1px solid var(--glass-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: var(--primary-cyan);
+    }
+    .contact-details h4 {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .contact-details a, .contact-details p {
+      font-size: 1.1rem;
+      color: var(--text-main);
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+    .contact-details a:hover {
+      color: var(--primary-cyan);
+    }
+
+    footer {
+      padding: 40px 8%;
+      text-align: center;
+      border-top: 1px solid var(--glass-border);
+      background: rgba(3, 11, 30, 0.95);
+      position: relative;
+      z-index: 10;
+    }
+    footer p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+    }
+
+    /* Back to Top Button */
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary-cyan), var(--primary-blue));
+      color: #030b1e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      box-shadow: 0 0 20px rgba(0, 242, 254, 0.5);
+      cursor: pointer;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+      z-index: 999;
+    }
+    .back-to-top.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .back-to-top:hover {
+      transform: translateY(-5px);
+    }
+
+    /* Scroll Reveal Initial Animation States */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s ease-out;
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ==========================================
+       13. RESPONSIVE MEDIA QUERIES
+       ========================================== */
+    @media (max-width: 992px) {
+      .hero {
+        flex-direction: column-reverse;
+        text-align: center;
+        padding-top: 140px;
+      }
+      .hero-content {
+        max-width: 100%;
+      }
+      .hero-btns, .social-links {
+        justify-content: center;
+      }
+      .image-wrapper {
+        width: 280px;
+        height: 370px;
+      }
+      .typing-container {
+        min-height: 45px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 75%;
+        height: 100vh;
+        background: rgba(3, 11, 30, 0.98);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: var(--transition);
+        border-left: 1px solid var(--glass-border);
+      }
+      .nav-links.open {
+        right: 0;
+      }
+      .hamburger {
+        display: block;
+        z-index: 1001;
+      }
+      .hero-title {
+        font-size: 2.5rem;
+      }
+      .section-title h2 {
+        font-size: 2rem;
+      }
+      body {
+        cursor: auto; /* Revert cursor on mobile devices */
+      }
+      .cursor-dot, .cursor-outline {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Custom Animated Cursor -->
+  <div class="cursor-dot"></div>
+  <div class="cursor-outline"></div>
+
+  <!-- Preloader Screen -->
+  <div id="preloader">
+    <div class="ripple-loader">
+      <div></div>
+      <div></div>
+    </div>
+    <div class="preloader-text">Loading Ocean Realm...</div>
+  </div>
+
+  <!-- Floating Particles Canvas Container -->
+  <div id="particles-container"></div>
+
+  <!-- Animated Ocean Waves BG -->
+  <div class="ocean-waves">
+    <div class="wave"></div>
+    <div class="wave"></div>
+  </div>
+
+  <!-- Navbar Section -->
+  <header id="header">
+    <a href="#" class="logo">Ranjan<span>.dev</span></a>
+    <div class="hamburger" id="hamburger">
+      <i class="fas fa-bars"></i>
+    </div>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+    <div class="hero-content reveal">
+      <div class="hero-subtitle">Welcome To My Portfolio</div>
+      <h1 class="hero-title">Hi, I'm <span>Ranjan Pandit</span></h1>
+      <div class="typing-container">
+        <span class="typing-text" id="typing-text"></span>
+      </div>
+      <div class="hero-btns">
+        <a href="#contact" class="btn btn-primary">Hire Me <i class="fas fa-paper-plane"></i></a>
+        <a href="#projects" class="btn btn-outline">View Works <i class="fas fa-code"></i></a>
+      </div>
+      <div class="social-links">
+        <a href="#" class="social-icon" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <a href="#" class="social-icon" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="mailto:ranjanpandit761@gmail.com" class="social-icon" aria-label="Email"><i class="fas fa-envelope"></i></a>
+        <a href="tel:+918114581588" class="social-icon" aria-label="Phone"><i class="fas fa-phone"></i></a>
+      </div>
+    </div>
+
+    <div class="hero-image-container reveal">
+      <div class="image-wrapper tilt-card">
+        <div class="glow-ring"></div>
+        <!-- Using your local photo file path -->
+        <img src="WhatsApp Image 2026-07-21 at 8.40.01 PM.jpeg" alt="Ranjan Pandit">
+      </div>
+    </div>
+  </section>
+
+  <!-- About & Education Section -->
+  <section id="about">
+    <div class="section-title reveal">
+      <h2>About Me</h2>
+    </div>
+    <div class="about-grid">
+      <div class="glass-card about-card reveal">
+        <p>
+          Hello! I'm <strong>Ranjan Pandit</strong>, a passionate BCA student with a strong interest in web development and modern technology. I enjoy creating responsive and attractive websites using HTML and CSS while continuously learning new technologies to improve my skills. My goal is to become a software engineer and build innovative applications that solve real-world problems. I believe in continuous learning, creativity, and hard work.
+        </p>
+
+        <div class="education-box">
+          <div class="edu-icon">
+            <i class="fas fa-graduation-cap"></i>
+          </div>
+          <div class="edu-details">
+            <h4>Bachelor of Computer Applications (BCA)</h4>
+            <p>Passionate about programming, modern web technologies, and software engineering principles.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section id="skills">
+    <div class="section-title reveal">
+      <h2>Technical & Soft Skills</h2>
+    </div>
+    <div class="skills-grid">
+      
+      <div class="glass-card skill-card tilt-card reveal">
+        <div class="skill-header">
+          <div class="skill-info">
+            <i class="fab fa-html5"></i>
+            <span class="skill-name">HTML5</span>
+          </div>
+          <span class="skill-percentage">90%</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" data-progress="90%"></div>
+        </div>
+      </div>
+
+      <div class="glass-card skill-card tilt-card reveal">
+        <div class="skill-header">
+          <div class="skill-info">
+            <i class="fab fa-css3-alt"></i>
+            <span class="skill-name">CSS3 & Responsive Design</span>
+          </div>
+          <span class="skill-percentage">85%</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" data-progress="85%"></div>
+        </div>
+      </div>
+
+      <div class="glass-card skill-card tilt-card reveal">
+        <div class="skill-header">
+          <div class="skill-info">
+            <i class="fab fa-js"></i>
+            <span class="skill-name">Learning JavaScript</span>
+          </div>
+          <span class="skill-percentage">60%</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" data-progress="60%"></div>
+        </div>
+      </div>
+
+      <div class="glass-card skill-card tilt-card reveal">
+        <div class="skill-header">
+          <div class="skill-info">
+            <i class="fas fa-pencil-ruler"></i>
+            <span class="skill-name">UI/UX Basics</span>
+          </div>
+          <span class="skill-percentage">75%</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" data-progress="75%"></div>
+        </div>
+      </div>
+
+      <div class="glass-card skill-card tilt-card reveal">
+        <div class="skill-header">
+          <div class="skill-info">
+            <i class="fas fa-lightbulb"></i>
+            <span class="skill-name">Problem Solving</span>
+          </div>
+          <span class="skill-percentage">80%</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" data-progress="80%"></div>
+        </div>
+      </div>
+
+      <div class="glass-card skill-card tilt-card reveal">
+        <div class="skill-header">
+          <div class="skill-info">
+            <i class="fas fa-users"></i>
+            <span class="skill-name">Teamwork & Communication</span>
+          </div>
+          <span class="skill-percentage">85%</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" data-progress="85%"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services">
+    <div class="section-title reveal">
+      <h2>Services I Offer</h2>
+    </div>
+    <div class="services-grid">
+
+      <div class="glass-card service-card tilt-card reveal">
+        <div class="service-icon"><i class="fas fa-laptop-code"></i></div>
+        <h3 class="service-title">Responsive Website Design</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Crafting mobile-first layout designs that look stunning across all screen sizes and devices.</p>
+      </div>
+
+      <div class="glass-card service-card tilt-card reveal">
+        <div class="service-icon"><i class="fas fa-rocket"></i></div>
+        <h3 class="service-title">Landing Page Design</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Building high-converting, attractive single-page landing pages tailored to highlight products or ideas.</p>
+      </div>
+
+      <div class="glass-card service-card tilt-card reveal">
+        <div class="service-icon"><i class="fas fa-user-tie"></i></div>
+        <h3 class="service-title">Portfolio Development</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Creating personal portfolio platforms with custom interactive elements and sleek styling.</p>
+      </div>
+
+      <div class="glass-card service-card tilt-card reveal">
+        <div class="service-icon"><i class="fas fa-paint-brush"></i></div>
+        <h3 class="service-title">UI Design</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Structuring modern glassmorphism layouts with modern gradients, smooth typography, and colors.</p>
+      </div>
+
+      <div class="glass-card service-card tilt-card reveal">
+        <div class="service-icon"><i class="fas fa-tachometer-alt"></i></div>
+        <h3 class="service-title">Website Optimization</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">Enhancing website loading speeds, optimizing code structure, and cleaning UI layout bugs.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects">
+    <div class="section-title reveal">
+      <h2>Featured Projects</h2>
+    </div>
+    <div class="projects-grid">
+
+      <!-- Project 1 -->
+      <div class="glass-card project-card tilt-card reveal">
+        <div class="project-img-placeholder">
+          <i class="fas fa-globe"></i>
+          <span>Portfolio Website</span>
+        </div>
+        <h3 class="project-title">3D Ocean Portfolio</h3>
+        <p class="project-desc">Interactive futuristic personal portfolio built with HTML, CSS3, custom ocean animations, and glassmorphism styling.</p>
+        <div class="project-footer">
+          <span class="tag">HTML / CSS / JS</span>
+          <a href="#" class="btn btn-outline" style="padding: 6px 16px; font-size: 0.8rem;">Demo</a>
+        </div>
+      </div>
+
+      <!-- Project 2 -->
+      <div class="glass-card project-card tilt-card reveal">
+        <div class="project-img-placeholder">
+          <i class="fas fa-university"></i>
+          <span>College Website</span>
+        </div>
+        <h3 class="project-title">College Web Portal</h3>
+        <p class="project-desc">Modern educational website layout displaying course listings, academic departments, and event announcements.</p>
+        <div class="project-footer">
+          <span class="tag">HTML / CSS</span>
+          <a href="#" class="btn btn-outline" style="padding: 6px 16px; font-size: 0.8rem;">Demo</a>
+        </div>
+      </div>
+
+      <!-- Project 3 -->
+      <div class="glass-card project-card tilt-card reveal">
+        <div class="project-img-placeholder">
+          <i class="fas fa-layer-group"></i>
+          <span>Landing Page</span>
+        </div>
+        <h3 class="project-title">Product Landing Page</h3>
+        <p class="project-desc">Clean, responsive product showcase landing page featuring fluid gradients and smooth scroll transitions.</p>
+        <div class="project-footer">
+          <span class="tag">UI/UX / CSS</span>
+          <a href="#" class="btn btn-outline" style="padding: 6px 16px; font-size: 0.8rem;">Demo</a>
+        </div>
+      </div>
+
+      <!-- Project 4 -->
+      <div class="glass-card project-card tilt-card reveal">
+        <div class="project-img-placeholder">
+          <i class="fas fa-mobile-alt"></i>
+          <span>Responsive Design</span>
+        </div>
+        <h3 class="project-title">Adaptive Web Template</h3>
+        <p class="project-desc">Mobile-first fully responsive multi-section template built to test adaptive UI behavior across multiple viewports.</p>
+        <div class="project-footer">
+          <span class="tag">Responsive</span>
+          <a href="#" class="btn btn-outline" style="padding: 6px 16px; font-size: 0.8rem;">Demo</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Achievements / Counters Section -->
+  <section class="achievements-section">
+    <div class="section-title reveal">
+      <h2>Achievements</h2>
+    </div>
+    <div class="counters-grid">
+      
+      <div class="glass-card counter-card reveal">
+        <div class="counter-number" data-target="15">0</div>
+        <div class="counter-label">Projects Completed</div>
+      </div>
+
+      <div class="glass-card counter-card reveal">
+        <div class="counter-number" data-target="350">0</div>
+        <div class="counter-label">Learning Hours</div>
+      </div>
+
+      <div class="glass-card counter-card reveal">
+        <div class="counter-number" data-target="8">0</div>
+        <div class="counter-label">Technologies Learned</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact">
+    <div class="section-title reveal">
+      <h2>Get In Touch</h2>
+    </div>
+    <div class="contact-container">
+
+      <div class="glass-card contact-info-card reveal">
+        <div class="contact-icon">
+          <i class="fas fa-envelope"></i>
+        </div>
+        <div class="contact-details">
+          <h4>Email Address</h4>
+          <a href="mailto:ranjanpandit761@gmail.com">ranjanpandit761@gmail.com</a>
+        </div>
+      </div>
+
+      <div class="glass-card contact-info-card reveal">
+        <div class="contact-icon">
+          <i class="fas fa-phone-alt"></i>
+        </div>
+        <div class="contact-details">
+          <h4>Mobile Number</h4>
+          <a href="tel:+918114581588">+91 8114581588</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>Designed & Developed by <strong>Ranjan Pandit</strong></p>
+    <p>&copy; 2026 All Rights Reserved.</p>
+  </footer>
+
+  <!-- Back to Top Floating Button -->
+  <div class="back-to-top" id="backToTop">
+    <i class="fas fa-arrow-up"></i>
+  </div>
+
+  <!-- ==========================================
+     JAVASCRIPT INTERACTIVITY
+     ========================================== -->
+  <script>
+    // 1. Hide Preloader on Window Load
+    window.addEventListener('load', () => {
+      const preloader = document.getElementById('preloader');
+      preloader.style.opacity = '0';
+      preloader.style.visibility = 'hidden';
+    });
+
+    // 2. Custom Animated Cursor
+    const cursorDot = document.querySelector('.cursor-dot');
+    const cursorOutline = document.querySelector('.cursor-outline');
+
+    window.addEventListener('mousemove', (e) => {
+      const posX = e.clientX;
+      const posY = e.clientY;
+
+      cursorDot.style.left = `${posX}px`;
+      cursorDot.style.top = `${posY}px`;
+
+      cursorOutline.animate({
+        left: `${posX}px`,
+        top: `${posY}px`
+      }, { duration: 500, fill: "forwards" });
+    });
+
+    // 3. Navbar Sticky Effect & Mobile Menu Toggle
+    const header = document.getElementById('header');
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('nav-links');
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    hamburger.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+      hamburger.querySelector('i').classList.toggle('fa-bars');
+      hamburger.querySelector('i').classList.toggle('fa-times');
+    });
+
+    // Close mobile menu on nav link click
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        hamburger.querySelector('i').classList.add('fa-bars');
+        hamburger.querySelector('i').classList.remove('fa-times');
+      });
+    });
+
+    // 4. Typing Effect for Hero Title
+    const typingTextElement = document.getElementById('typing-text');
+    const roles = [
+      "BCA Student",
+      "Front-End Web Developer",
+      "Future Software Engineer"
+    ];
+    let roleIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+
+    function typeEffect() {
+      const currentRole = roles[roleIndex];
+      if (isDeleting) {
+        typingTextElement.textContent = currentRole.substring(0, charIndex - 1);
+        charIndex--;
+      } else {
+        typingTextElement.textContent = currentRole.substring(0, charIndex + 1);
+        charIndex++;
+      }
+
+      let speed = isDeleting ? 50 : 100;
+
+      if (!isDeleting && charIndex === currentRole.length) {
+        speed = 2000; // Pause at end of word
+        isDeleting = true;
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        roleIndex = (roleIndex + 1) % roles.length;
+        speed = 500;
+      }
+
+      setTimeout(typeEffect, speed);
+    }
+    typeEffect();
+
+    // 5. Create Floating Ocean Bubbles
+    const particlesContainer = document.getElementById('particles-container');
+    function createBubbles() {
+      for (let i = 0; i < 20; i++) {
+        const bubble = document.createElement('div');
+        bubble.classList.add('bubble');
+        const size = Math.random() * 20 + 8 + 'px';
+        bubble.style.width = size;
+        bubble.style.height = size;
+        bubble.style.left = Math.random() * 100 + '%';
+        bubble.style.animationDuration = Math.random() * 8 + 6 + 's';
+        bubble.style.animationDelay = Math.random() * 5 + 's';
+        particlesContainer.appendChild(bubble);
+      }
+    }
+    createBubbles();
+
+    // 6. Interactive 3D Card Hover Effect (Tilt)
+    const tiltCards = document.querySelectorAll('.tilt-card');
+    tiltCards.forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = (y - centerY) / 12;
+        const rotateY = (centerX - x) / 12;
+
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+      });
+    });
+
+    // 7. Scroll Reveal & Animated Progress Bars + Counters
+    const reveals = document.querySelectorAll('.reveal');
+    const progressBars = document.querySelectorAll('.progress-bar-fill');
+    const counters = document.querySelectorAll('.counter-number');
+    let countersAnimated = false;
+
+    function handleScroll() {
+      const windowHeight = window.innerHeight;
+
+      // Reveal elements on scroll
+      reveals.forEach(reveal => {
+        const elementTop = reveal.getBoundingClientRect().top;
+        if (elementTop < windowHeight - 100) {
+          reveal.classList.add('active');
+        }
+      });
+
+      // Animate progress bars when skills section is visible
+      progressBars.forEach(bar => {
+        const barTop = bar.getBoundingClientRect().top;
+        if (barTop < windowHeight - 50) {
+          bar.style.width = bar.getAttribute('data-progress');
+        }
+      });
+
+      // Animate Counters when achievements section is visible
+      const achievementsSection = document.querySelector('.achievements-section');
+      if (achievementsSection) {
+        const top = achievementsSection.getBoundingClientRect().top;
+        if (top < windowHeight - 100 && !countersAnimated) {
+          countersAnimated = true;
+          counters.forEach(counter => {
+            const target = +counter.getAttribute('data-target');
+            let count = 0;
+            const increment = target / 50;
+            const updateCount = () => {
+              count += increment;
+              if (count < target) {
+                counter.innerText = Math.ceil(count) + '+';
+                setTimeout(updateCount, 30);
+              } else {
+                counter.innerText = target + '+';
+              }
+            };
+            updateCount();
+          });
+        }
+      }
+
+      // Back to Top button visibility
+      const backToTop = document.getElementById('backToTop');
+      if (window.scrollY > 400) {
+        backToTop.classList.add('active');
+      } else {
+        backToTop.classList.remove('active');
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Initial check on load
+
+    // Back to Top click action
+    document.getElementById('backToTop').addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
+</body>
+</html>
